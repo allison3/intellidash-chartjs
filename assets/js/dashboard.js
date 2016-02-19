@@ -2,9 +2,23 @@ $(document).ready(function(){
   var generateChart = {
     gender: function(data){
 
+      var male = 0;
+      var female = 0;
+
+      for (var i = 0; i < data.length; i++){
+        if(data[i].person.gender === 'M'){
+          var male += 1
+        } else {
+          var female += 1
+        }        
+      }
+
+    chartData[0].value = var male;
+    chartData[1].value = var female;
+
       var chartData = [
         {
-          value: 0 /* How do we get this value? */,
+          value: 0,
           color: "rgb(0,127,255)",
           highlight: "rgba(0,127,255,0.5)",
           label: "Male"
@@ -17,7 +31,12 @@ $(document).ready(function(){
         }
       ];
 
+    var genderPieChart = new Chart(ctx[0].Pie(chartData));
+
+    $('.chart .gender').append(genderPieChart);
+
     },
+    
     orderTotal: function(data){
 
       var ranges = {
@@ -104,6 +123,13 @@ $(document).ready(function(){
     }
   };
 
-  // Delete this comment: Perhaps this is where we should make our GET request?
+  $.get('https://www.batchacademy.com/api/wdfne/dummy/intellidash', function(data){
+        generateChart.gender(data);
+        generateChart.orderTotal(data);
+        generateChart.orderCategory(data);
+        generateChart.orderTimeline(data);
+  });
+
+
 
 });
